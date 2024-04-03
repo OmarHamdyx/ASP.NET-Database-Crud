@@ -1,0 +1,12 @@
+﻿@model List<PersonDto>
+
+
+@foreach (PersonDto personDto in Model)
+{
+	<div>@personDto.Name</div>
+	<div>@personDto.PersonId</div>
+	<div>@personDto.BirthDate</div>
+	<div>@personDto.Age</div>
+	<div>@personDto.NationalityId</div>
+	<div>@personDto.NationalityName</div>
+}
