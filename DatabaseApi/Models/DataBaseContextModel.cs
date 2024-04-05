@@ -10,10 +10,9 @@ namespace DatabaseApi.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-			modelBuilder.Entity<PersonDto>().HasNoKey();
 
 			modelBuilder.Entity<Person>()
-           .HasOne(p => p.Nationality);
+           .HasOne(p => p.Nationality).WithOne(n=>n.Person);
 
             new DbInitializer(modelBuilder).Seed();
 
