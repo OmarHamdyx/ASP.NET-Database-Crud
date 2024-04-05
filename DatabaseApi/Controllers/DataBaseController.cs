@@ -1,8 +1,5 @@
 using DatabaseApi.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace DatabaseApi.Controllers
 {
@@ -17,14 +14,11 @@ namespace DatabaseApi.Controllers
 		}
 
 
-
-
-		[Route("GetAllUsers")]
-		public IActionResult PersonsView()
+		[Route("/get-all-users")]
+		public IActionResult GetAllUsers()
 		{
-			var query = _dbContext.Persons.Include(p => p.Nationality);
 
-			List<PersonDto> personData =  query.Select(person => new PersonDto
+			List<PersonDto> personData = _dbContext.Persons.Where(p => p.Nationality != null).Select(person => new PersonDto
 			{
 				PersonId = person.PersonId,
 				Name = person.Name,
@@ -68,9 +62,7 @@ namespace DatabaseApi.Controllers
 		public IActionResult FindUser(int id)
 		{
 
-			Person? person = _dbContext.Persons
-								.Include(p => p.Nationality)
-								.FirstOrDefault(p => p.PersonId == id);
+			Person? person = _dbContext.Persons.FirstOrDefault(p => p.PersonId == id);
 
 			if (person != null)
 			{
@@ -100,8 +92,6 @@ namespace DatabaseApi.Controllers
 			}
 			_dbContext.Persons.Update(person);
 			_dbContext.SaveChanges();
-
-
 
 			return View();
 		}
